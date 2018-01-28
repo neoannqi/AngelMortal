@@ -264,20 +264,29 @@ bot.onText(/\/messagemortal/, function (msg, match) {
 
 }
 else {
+	var gameID = msg.text.split(" ")[1];
+		var sql = "SELECT 1 FROM " + gameID + " LIMIT 1;";
+		con.query(sql, function(err, result) {		
 
- var gameID = msg.text.split(" ")[1];
- var message = msg.text.split(" ").slice(2).join(" ");
- console.log(message);
- var getmortal = "SELECT * FROM " + gameID + " WHERE id = " + fromId + ";"; 
- con.query(getmortal, function (err, result, fields) {
-          if (err) throw err;
-              console.log(result);
-  var playerMortal = result[0].mortal;
-  // console.log(playerMortal);
-  bot.sendMessage(playerMortal, "With love from Angel of gameID " + gameID + ": \n" + message);
- // // 
- });
-}
+		if (err) {
+			console.log("Table does not exist");
+		  	bot.sendMessage(fromId, "GameID does not exist. Please call the command /creategame again with a gameid.");
+		}
+		else {
+		 var message = msg.text.split(" ").slice(2).join(" ");
+		 console.log(message);
+		 var getmortal = "SELECT * FROM " + gameID + " WHERE id = " + fromId + ";"; 
+		 con.query(getmortal, function (err, result, fields) {
+		          if (err) throw err;
+		              console.log(result);
+		  var playerMortal = result[0].mortal;
+		  // console.log(playerMortal);
+		  bot.sendMessage(playerMortal, "With love from Angel of gameID " + gameID + ": \n" + message);
+		 // // 
+		 })
+		}
+})
+	}
 });
 
 bot.onText(/\/messageangel/, function (msg, match) {
@@ -290,20 +299,32 @@ bot.onText(/\/messageangel/, function (msg, match) {
 
 	}
 	else {
+	var gameID = msg.text.split(" ")[1];
+		var sql = "SELECT 1 FROM " + gameID + " LIMIT 1;";
+		con.query(sql, function(err, result) {		
 
- var gameID = msg.text.split(" ")[1];
- var message = msg.text.split(" ").slice(2).join(" ");
- console.log(message);
- var getmortal = "SELECT * FROM " + gameID + " WHERE id = " + fromId + ";"; 
- con.query(getmortal, function (err, result, fields) {
-          if (err) throw err;
-              console.log(result);
-  var playerAngel = result[0].angel;
-  // console.log(playerMortal);
-  bot.sendMessage(playerAngel, "With love from Mortal of gameID " + gameID + ": \n" + message);
- });
-}
+		if (err) {
+			console.log("Table does not exist");
+		  	bot.sendMessage(fromId, "GameID does not exist. Please call the command /creategame again with a gameid.");
+		}
+		else {
+
+		 var message = msg.text.split(" ").slice(2).join(" ");
+		 console.log(message);
+		 var getmortal = "SELECT * FROM " + gameID + " WHERE id = " + fromId + ";"; 
+		 con.query(getmortal, function (err, result, fields) {
+		          if (err) throw err;
+		              console.log(result);
+		  var playerAngel = result[0].angel;
+		  // console.log(playerMortal);
+		  bot.sendMessage(playerAngel, "With love from Mortal of gameID " + gameID + ": \n" + message);
+		 });
+		}
 });
+	}
+});
+
+
 
 bot.onText(/\/endgame/, function (msg, match) {
 	var fromId = msg.from.id;
